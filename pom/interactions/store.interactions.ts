@@ -1,0 +1,88 @@
+import { expect, Page } from "playwright/test";
+import { StorePage } from "../pages/store.page";
+import { StoreSortOptions } from "../../enums/store_sort";
+
+export class StoreInteractions {
+    readonly page: Page;
+    readonly storePage: StorePage;
+
+    constructor(page: Page) {
+        this.page = page;
+        this.storePage = new StorePage(this.page);
+    }
+
+    // Actions --------------------------------------------------------------------------------------------
+
+    async getId(name: string): Promise<string | null> {
+        const nameElement = this.storePage.item(name).name;
+        const idProperty = await nameElement.locator('..').getAttribute("id");
+        const id = idProperty?.match(/item_(\d+)/)?.[1] ?? null;
+        return id;
+    }
+
+    /**
+     * Clicks an item's link
+     * @param name 
+     * @returns item's id
+    */
+    async clickItemLink(name: string) {
+        const id = await this.getId(name);
+        await this.storePage.item(name).name.click();
+        return id;
+    }
+
+    /**
+     * Adds an item to the cart
+     * @param name 
+    */
+    async addItemToCart(name: string) {
+        const id = await this.getId(name);
+        await this.storePage.item(name).addButton.click();
+        return id;
+    }
+
+    /**
+     * Gets an item's price
+     * @param name 
+    */
+    async getItemPrice(name: string): Promise<string> {
+        const price = await this.storePage.item(name).price.textContent();
+        if (price === null) {
+            throw new Error(`Price not found for item: ${name}`);
+        }
+        return price.trim();
+    }
+
+    /**
+     * Gets an item price (number format)
+     * @param name 
+    */
+    async getNumericItemPrice(name: string): Promise<number> {
+        const price = await this.getItemPrice(name);
+        const numericPrice = parseFloat(price);
+        if (isNaN(numericPrice)) {
+            throw new Error(`Invalid price format for item: ${name}`);
+        }
+        return numericPrice;
+    }
+
+    /**
+     * Sorts the store items
+     * @param option 
+    */
+    async sortBy(option: StoreSortOptions) {
+        await this.storePage.sortSelect.selectOption(option);
+    }
+
+    // Validations ----------------------------------------------------------------------------------------
+
+    /**
+     * Assert item details page is displayed
+     * @param id 
+    */
+    async assertItemDetailsIsDisplayed(id: string) {
+        const url = this.page.url();
+        expect(url).toContain("https://www.saucedemo.com/inventory-item.html");
+        expect(url).toContain(`inventory-item.html?id=${id}`);
+    }
+}
