@@ -58,7 +58,10 @@ export class DetailsInteractions {
      * Assert item details page is displayed
      * @param id 
     */
-    async assertItemDetailsIsDisplayed(id: string) {
+    async assertItemDetailsIsDisplayed(id: string | null) {
+        if (!id) {
+            throw new Error("ID is required to assert item details page");
+        }
         const url = this.page.url();
         expect(url).toContain(process.env.BASE_URL! + "inventory-item.html");
         expect(url).toContain(`inventory-item.html?id=${id}`);
