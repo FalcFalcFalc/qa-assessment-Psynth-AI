@@ -1,7 +1,7 @@
 import { Locator, Page } from "playwright/test";
 
 export class DetailsPage {
-    
+
     readonly name: Locator;
     readonly description: Locator;
     readonly price: Locator;

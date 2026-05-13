@@ -86,7 +86,7 @@ export class TopBarInteractions {
      * @param expectedCount 
      */
     async assertBadgeCountLessThan(expectedCount: number) {
-        if(expectedCount > 1) {
+        if (expectedCount > 1) {
             const actualCount = await this.getBadgeCount();
             expect(actualCount).toBeLessThan(expectedCount);
         }

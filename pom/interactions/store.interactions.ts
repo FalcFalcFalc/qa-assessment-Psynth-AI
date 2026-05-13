@@ -34,11 +34,13 @@ export class StoreInteractions {
     /**
      * Adds an item to the cart
      * @param name 
+     * @return the id and price of the added item
     */
     async addItemToCart(name: string) {
         const id = await this.getId(name);
+        const price = await this.getNumericItemPrice(name);
         await this.storePage.item(name).addButton.click();
-        return id;
+        return { id, price };
     }
 
     /**

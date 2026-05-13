@@ -49,21 +49,19 @@ export class LoginInteractions {
 
     /**
      * Asserts that the user is logged in
-     * @param page
      */
-    async assertLoggedIn(page: Page) {
-        const currentURL = page.url();
-        expect(currentURL).toBe(process.env.BASE_URL!+"inventory.html");
-        expect(currentURL).not.toBe(process.env.BASE_URL!);
+    async assertLoggedIn() {
+        const url = this.page.url();
+        expect(url).toBe(process.env.BASE_URL! + "inventory.html");
+        expect(url).not.toBe(process.env.BASE_URL!);
     }
 
     /**
      * Asserts that the user is not logged in
-     * @param page
      */
-    async assertNotLoggedIn(page: Page) {
-        const currentURL = page.url();
+    async assertNotLoggedIn() {
+        const currentURL = this.page.url();
         expect(currentURL).toBe(process.env.BASE_URL!);
-        expect(currentURL).not.toBe(process.env.BASE_URL!+"inventory.html");
+        expect(currentURL).not.toBe(process.env.BASE_URL! + "inventory.html");
     }
 }
