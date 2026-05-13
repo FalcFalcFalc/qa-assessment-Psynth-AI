@@ -119,7 +119,7 @@ export class CartInteractions {
      * Assert no items in cart
      */
     async assertNoItemsInCart() {
-        const count = this.cartPage.item().name.count();
+        const count = await this.cartPage.item().name.count();
         expect(count).toBe(0);
     }
 
