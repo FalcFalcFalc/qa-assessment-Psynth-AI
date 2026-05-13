@@ -14,7 +14,7 @@ test.describe("Details Page", () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto(process.env.BASE_URL!);
-        
+
         login = new LoginInteractions(page);
         store = new StoreInteractions(page);
         topbar = new TopBarInteractions(page);

@@ -63,7 +63,7 @@ export class DetailsInteractions {
     */
     async assertItemDetailsIsDisplayed(id: string) {
         const url = this.page.url();
-        expect(url).toContain(process.env.BASE_URL!+"inventory-item.html");
+        expect(url).toContain(process.env.BASE_URL! + "inventory-item.html");
         expect(url).toContain(`inventory-item.html?id=${id}`);
     }
 }
