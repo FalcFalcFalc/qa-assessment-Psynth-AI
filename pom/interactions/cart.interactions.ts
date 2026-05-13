@@ -124,6 +124,21 @@ export class CartInteractions {
     }
 
     /**
+     * Assert no items in cart
+     */
+    async assertNoItemsInCart() {
+        const count = this.cartPage.item().name.count();
+        expect(count).toBe(0);
+    }
+
+    /**
+     * Assert checkout button is disabled
+     */
+    async assertCheckoutButtonDisabled(){
+        await expect(this.cartPage.checkoutButton).toBeDisabled();
+    }
+
+    /**
      * Assert item price
      * @param name 
      * @param expectedPrice

@@ -26,24 +26,62 @@ test.describe("Checkout Tests", () => {
         checkout = new CheckoutInteractions(page);
         cart = new CartInteractions(page);
 
-        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
     });
-
+    
     test("Checkout flow", async () => {
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
         const item = StoreItems.SHIRT
+        const personalInfo = { firstName: "John", lastName: "Doe", postalCode: "12345" };
 
         const { price } = await store.addItemToCart(item);
         await topbar.clickCart();
         await cart.assertItemInCart(item);
         await cart.clickCheckout();
-        await checkout.fillCheckoutForm("John", "Doe", "12345");
+        await checkout.fillCheckoutForm(personalInfo);
+        await checkout.assertCheckoutFormIsFilled(personalInfo);
         await checkout.clickContinue();
-        await checkout.assertTotalIsCorrect();
+        await checkout.assertTotalIsCorrect(price);
         await checkout.clickFinish();
         await checkout.assertSuccessMessage();
         await checkout.clickBackHome();
     });
 
+    test("Personal information is filled correctly", async () => {
+        test.fail(true, "Items added won't be the ones that were selected. Also, the checkout form should retain the filled information if the user goes back to it, but it doesn't.");
+        await login.login(process.env.ERROR_USER, process.env.ERROR_USER_PASSWORD);
 
+        const item = StoreItems.SHIRT
+        const personalInfo = { firstName: "John", lastName: "Doe", postalCode: "12345" };
+
+        const { price } = await store.addItemToCart(item);
+        await topbar.clickCart();
+        await cart.assertItemInCart(item);
+        await cart.clickCheckout();
+        await checkout.fillCheckoutForm(personalInfo);
+        await checkout.assertCheckoutFormIsFilled(personalInfo);
+        await checkout.clickContinue();
+        await checkout.assertTotalIsCorrect(price);
+        await checkout.clickFinish();
+        await checkout.assertSuccessMessage();
+        await checkout.clickBackHome();
+    });
+
+    test("Checking out with no items", async () => {
+        test.fail(true, "It is currently possible to proceed to checkout with no items in the cart.");
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+        const personalInfo = { firstName: "John", lastName: "Doe", postalCode: "12345" };
+
+        await topbar.clickCart();
+        await cart.assertNoItemsInCart();
+        await cart.assertCheckoutButtonDisabled();
+        await cart.clickCheckout();
+        await checkout.fillCheckoutForm(personalInfo);
+        await checkout.assertContinueDisabled();
+        await checkout.assertTotalIsCorrect(0);
+        await checkout.clickContinue();
+        await checkout.clickFinish();
+        await checkout.assertFailureMessage();
+        await checkout.clickBackHome();
+    });
 });

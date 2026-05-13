@@ -17,12 +17,12 @@ class CartItem {
 }
 
 export class CartPage {
-    readonly item: (name: string) => CartItem;
+    readonly item: (name?: string) => CartItem;
     readonly checkoutButton: Locator;
     readonly continueShoppingButton: Locator;
 
     constructor(page: Page) {
-        this.item = (hasText: string) => {
+        this.item = (hasText?: string) => {
             const name = page.locator("a div.inventory_item_name", { hasText });
             const container = page.locator("div.cart_item", { has: name });
             return {

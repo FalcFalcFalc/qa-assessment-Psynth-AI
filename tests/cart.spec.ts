@@ -55,6 +55,5 @@ test.describe("Cart Tests", () => {
         await cart.assertItemInCart(StoreItems.BACKPACK);
         await cart.setQuantityOfItem(StoreItems.BACKPACK, quantity);
         await cart.assertQuantityOfItem(StoreItems.BACKPACK, quantity);
-    })
-
+    });
 });
