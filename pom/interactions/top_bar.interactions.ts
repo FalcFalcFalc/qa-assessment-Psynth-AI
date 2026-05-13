@@ -48,6 +48,14 @@ export class TopBarInteractions {
     }
 
     /**
+     * Clicks on Logout
+     */
+    async logout() {
+        await this.clickHamburgerMenu();
+        await this.clickLogout();
+    }
+
+    /**
      * Clicks on Reset App State
      */
     async clickResetAppState() {

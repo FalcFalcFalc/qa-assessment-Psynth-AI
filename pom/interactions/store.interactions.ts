@@ -1,6 +1,6 @@
 import { expect, Page } from "playwright/test";
 import { StorePage } from "../pages/store.page";
-import { StoreSortOptions } from "../../enums/store";
+import { StoreItems, StoreSortOptions } from "../../enums/store";
 import { priceToFloat } from "../../helpers/priceToFloat";
 
 export class StoreInteractions {
@@ -28,8 +28,9 @@ export class StoreInteractions {
     */
     async clickItemLink(name: string) {
         const id = await this.getId(name);
+        const price = await this.getNumericItemPrice(name);
         await this.storePage.item(name).name.click();
-        return id;
+        return { id, price };
     }
 
     /**
@@ -85,5 +86,14 @@ export class StoreInteractions {
     */
     async sortBy(option: StoreSortOptions) {
         await this.storePage.sortSelect.selectOption(option);
+    }
+
+    /**
+     * Assert item price is displayed correctly
+     * @param price 
+     */
+    async assertItemPrice(name: string, price: number) {
+        const displayedPrice = await this.getNumericItemPrice(name);
+        expect(displayedPrice).toBeCloseTo(price, 2);
     }
 }

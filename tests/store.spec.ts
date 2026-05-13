@@ -49,4 +49,16 @@ test.describe("Store Tests", () => {
         }
         await topbar.assertBadgeCountGreaterThan(ogCount + timesAdded);
     });
+
+    test("Item price is the same for different users", async () => {
+        test.fail(true, "The item price is not consistent between users.");
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+
+        const { price } = await store.clickItemLink(StoreItems.BACKPACK);
+
+        await topbar.logout();
+        await login.login(process.env.VISUAL_USER, process.env.VISUAL_USER_PASSWORD);
+
+        await store.assertItemPrice(StoreItems.BACKPACK, price);
+    });
 });

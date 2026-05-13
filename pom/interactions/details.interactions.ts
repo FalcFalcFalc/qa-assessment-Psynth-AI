@@ -59,7 +59,7 @@ export class DetailsInteractions {
      * @param id 
     */
     async assertItemDetailsIsDisplayed(id: string | null) {
-        if(!id) {
+        if (!id) {
             throw new Error("ID is required to assert item details page");
         }
         const url = this.page.url();

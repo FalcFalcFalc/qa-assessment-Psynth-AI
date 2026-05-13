@@ -27,7 +27,7 @@ test.describe("Checkout Tests", () => {
         cart = new CartInteractions(page);
 
     });
-    
+
     test("Checkout flow", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
@@ -38,11 +38,41 @@ test.describe("Checkout Tests", () => {
         await topbar.clickCart();
         await cart.assertItemInCart(item);
         await cart.clickCheckout();
+
         await checkout.fillCheckoutForm(personalInfo);
         await checkout.assertCheckoutFormIsFilled(personalInfo);
         await checkout.clickContinue();
+
         await checkout.assertTotalIsCorrect(price);
         await checkout.clickFinish();
+
+        await checkout.assertSuccessMessage();
+        await checkout.clickBackHome();
+    });
+
+    test("Buying ALL items", async () => {
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+        let price = 0;
+        const personalInfo = { firstName: "John", lastName: "Doe", postalCode: "12345" };
+
+        for (const item of Object.values(StoreItems)) {
+            const addedItem = await store.addItemToCart(item);
+            price += addedItem.price;
+        }
+        await topbar.clickCart();
+
+        for (const item of Object.values(StoreItems)) {
+            await cart.assertItemInCart(item);
+        }
+        await cart.clickCheckout();
+
+        await checkout.fillCheckoutForm(personalInfo);
+        await checkout.assertCheckoutFormIsFilled(personalInfo);
+        await checkout.clickContinue();
+
+        await checkout.assertTotalIsCorrect(price);
+        await checkout.clickFinish();
+
         await checkout.assertSuccessMessage();
         await checkout.clickBackHome();
     });
@@ -58,11 +88,14 @@ test.describe("Checkout Tests", () => {
         await topbar.clickCart();
         await cart.assertItemInCart(item);
         await cart.clickCheckout();
+
         await checkout.fillCheckoutForm(personalInfo);
         await checkout.assertCheckoutFormIsFilled(personalInfo);
         await checkout.clickContinue();
+
         await checkout.assertTotalIsCorrect(price);
         await checkout.clickFinish();
+
         await checkout.assertSuccessMessage();
         await checkout.clickBackHome();
     });
