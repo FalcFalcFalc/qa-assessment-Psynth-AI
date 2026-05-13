@@ -43,6 +43,6 @@ jobs:
     - name: Install Playwright dependencies
       run: npx playwright install-deps
     - name: Install Playwright
-      run: npx playwright install
+      run: npx playwright install chromium --only-shell
     - name: Run tests
       run: npm test
