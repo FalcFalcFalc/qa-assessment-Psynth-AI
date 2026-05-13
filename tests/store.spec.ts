@@ -6,6 +6,7 @@ import { StoreInteractions } from "../pom/interactions/store.interactions";
 import { StoreItems } from "../enums/store";
 import { CartInteractions } from "../pom/interactions/cart.interactions";
 import { TopBarInteractions } from "../pom/interactions/top_bar.interactions";
+import { navigateTo } from "../helpers/navigateTo";
 
 test.describe("Store Tests", () => {
 
@@ -17,7 +18,7 @@ test.describe("Store Tests", () => {
         store = new StoreInteractions(page);
         login = new LoginInteractions(page);
         topbar = new TopBarInteractions(page);
-        await page.goto(process.env.BASE_URL!);
+        await navigateTo(page, process.env.BASE_URL!);
     });
 
     test("Cart increased count", async () => {

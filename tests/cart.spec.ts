@@ -6,6 +6,7 @@ import { StoreInteractions } from "../pom/interactions/store.interactions";
 import { StoreItems } from "../enums/store";
 import { CartInteractions } from "../pom/interactions/cart.interactions";
 import { TopBarInteractions } from "../pom/interactions/top_bar.interactions";
+import { navigateTo } from "../helpers/navigateTo";
 
 test.describe("Cart Tests", () => {
 
@@ -19,7 +20,8 @@ test.describe("Cart Tests", () => {
         login = new LoginInteractions(page);
         cart = new CartInteractions(page);
         topbar = new TopBarInteractions(page);
-        await page.goto(process.env.BASE_URL!);
+        await navigateTo(page, process.env.BASE_URL!);
+        
     });
 
     test("Add to cart", async () => {

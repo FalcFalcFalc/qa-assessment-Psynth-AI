@@ -68,7 +68,7 @@ export class CartInteractions {
     async getItemPrice(name: string): Promise<string> {
         const price = await this.cartPage.item(name).price.textContent();
         if (price === null) {
-            throw new Error(`Price not found for item: ${name}`);
+            throw new Error(`Price not found for item: ${name}. Got ${price}.`);
         }
         return price.trim();
     }
@@ -81,7 +81,7 @@ export class CartInteractions {
         const price = await this.getItemPrice(name);
         const numericPrice = parseFloat(price);
         if (isNaN(numericPrice)) {
-            throw new Error(`Invalid price format for item: ${name}`);
+            throw new Error(`Invalid price format for item: ${name}. Got ${price}, then parsed to ${numericPrice}.`);
         }
         return numericPrice;
     }

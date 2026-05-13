@@ -73,7 +73,7 @@ export class StoreInteractions {
         const price = await this.getItemPrice(name);
         const numericPrice = parseFloat(price);
         if (isNaN(numericPrice)) {
-            throw new Error(`Invalid price format for item: ${name}`);
+            throw new Error(`Invalid price format for item: ${name}. Got ${price}`);
         }
         return numericPrice;
     }

@@ -6,6 +6,7 @@ import { StoreInteractions } from "../pom/interactions/store.interactions";
 import { TopBarInteractions } from "../pom/interactions/top_bar.interactions";
 import { StoreItems } from "../enums/store";
 import { CartInteractions } from "../pom/interactions/cart.interactions";
+import { navigateTo } from "../helpers/navigateTo";
 
 test.describe("Checkout Tests", () => {
 
@@ -17,7 +18,7 @@ test.describe("Checkout Tests", () => {
     let cart: CartInteractions;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto(process.env.BASE_URL!);
+        await navigateTo(page, process.env.BASE_URL!);
         store = new StoreInteractions(page);
         login = new LoginInteractions(page);
         topbar = new TopBarInteractions(page);

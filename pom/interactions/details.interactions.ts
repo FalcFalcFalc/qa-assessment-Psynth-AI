@@ -38,7 +38,7 @@ export class DetailsInteractions {
     async getItemPrice(): Promise<string> {
         const price = await this.detailsPage.price.textContent();
         if (price === null) {
-            throw new Error(`Price not found for item: ${name}`);
+            throw new Error(`Price not found for item`);
         }
         return price.trim();
     }
@@ -46,11 +46,11 @@ export class DetailsInteractions {
     /**
      * Gets an item price (number format)
     */
-    async getNumericItemPrice(name: string): Promise<number> {
+    async getNumericItemPrice(): Promise<number> {
         const price = await this.getItemPrice();
         const numericPrice = parseFloat(price);
         if (isNaN(numericPrice)) {
-            throw new Error(`Invalid price format for item: ${name}`);
+            throw new Error(`Invalid price format for item. Got ${price}, then parsed to ${numericPrice}.`);
         }
         return numericPrice;
     }

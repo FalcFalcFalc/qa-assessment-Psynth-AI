@@ -4,6 +4,7 @@ import { LoginInteractions } from "../pom/interactions/login.interactions";
 import { StoreInteractions } from "../pom/interactions/store.interactions";
 import { TopBarInteractions } from "../pom/interactions/top_bar.interactions";
 import { DetailsInteractions } from "../pom/interactions/details.interactions";
+import { navigateTo } from "../helpers/navigateTo";
 
 test.describe("Details Page", () => {
 
@@ -13,7 +14,7 @@ test.describe("Details Page", () => {
     let details: DetailsInteractions;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto(process.env.BASE_URL!);
+        await navigateTo(page, process.env.BASE_URL!);
 
         login = new LoginInteractions(page);
         store = new StoreInteractions(page);
