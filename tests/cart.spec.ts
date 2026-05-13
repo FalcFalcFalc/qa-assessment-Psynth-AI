@@ -45,8 +45,8 @@ test.describe("Cart Tests", () => {
         await topbar.assertBadgeCountLessThan(badgeCount);
     });
 
-    // This one fails
     test("Set quantity of item in cart", async () => {
+        test.fail(true, "The targeted box should be an input where you can set the quantity, but it's not. It's just a div with value 1.");
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
         const quantity = 3;

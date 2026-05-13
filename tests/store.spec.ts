@@ -40,8 +40,8 @@ test.describe("Store Tests", () => {
         await topbar.assertBadgeCountLessThan(count);
     });
 
-    // Thise one fails
     test("Add multiple items", async () => {
+        test.fail(true, "It is not possible to add multiple instances of the same item to the cart. The 'Add to cart' button changes to 'Remove' after adding the first one, so you can't add more without removing it first.");
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
         const timesAdded = 3;
         const ogCount = await topbar.getBadgeCount();
