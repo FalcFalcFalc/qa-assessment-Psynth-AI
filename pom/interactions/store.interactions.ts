@@ -40,7 +40,9 @@ export class StoreInteractions {
     async addItemToCart(name: string) {
         const id = await this.getId(name);
         const price = await this.getNumericItemPrice(name);
-        await this.storePage.item(name).addButton.click();
+        const button = this.storePage.item(name).addButton;
+        await expect(button).toBeVisible();
+        await button.click();
         return { id, price };
     }
 
@@ -50,7 +52,9 @@ export class StoreInteractions {
     */
     async removeItemFromCart(name: string) {
         const id = await this.getId(name);
-        await this.storePage.item(name).removeButton.click();
+        const button = this.storePage.item(name).removeButton;
+        await expect(button).toBeVisible();
+        await button.click();
         return id;
     }
 
