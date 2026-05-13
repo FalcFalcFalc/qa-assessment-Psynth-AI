@@ -1,5 +1,6 @@
 import { expect, Page } from "playwright/test";
 import { CheckoutPage } from "../pages/checkout.page";
+import { priceToFloat } from "../../helpers/priceToFloat";
 
 export class CheckoutInteractions {
     readonly checkoutPage: CheckoutPage;
@@ -76,10 +77,8 @@ export class CheckoutInteractions {
      */
     async getSubtotal(): Promise<number> {
         const subtotal = await this.checkoutPage.subtotal.textContent();
-        if (subtotal === null) {
-            throw new Error("Subtotal not found");
-        }
-        return parseFloat(subtotal.replace('$', ''));
+        return priceToFloat(subtotal);
+        
     }
 
     /**
@@ -87,10 +86,7 @@ export class CheckoutInteractions {
      */
     async getTax(): Promise<number> {
         const tax = await this.checkoutPage.tax.textContent();
-        if (tax === null) {
-            throw new Error("Tax not found");
-        }
-        return parseFloat(tax.replace('$', ''));
+        return priceToFloat(tax);
     }
 
     /**
@@ -98,10 +94,7 @@ export class CheckoutInteractions {
      */
     async getTotal(): Promise<number> {
         const total = await this.checkoutPage.total.textContent();
-        if (total === null) {
-            throw new Error("Total not found");
-        }
-        return parseFloat(total.replace('$', ''));
+        return priceToFloat(total);
     }
 
     /**

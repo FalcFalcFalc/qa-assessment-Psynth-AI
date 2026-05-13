@@ -1,6 +1,7 @@
 import { expect, Page } from "playwright/test";
 import { StorePage } from "../pages/store.page";
 import { StoreSortOptions } from "../../enums/store";
+import { priceToFloat } from "../../helpers/priceToFloat";
 
 export class StoreInteractions {
     readonly page: Page;
@@ -71,11 +72,7 @@ export class StoreInteractions {
     */
     async getNumericItemPrice(name: string): Promise<number> {
         const price = await this.getItemPrice(name);
-        const numericPrice = parseFloat(price);
-        if (isNaN(numericPrice)) {
-            throw new Error(`Invalid price format for item: ${name}. Got ${price}`);
-        }
-        return numericPrice;
+        return priceToFloat(price);
     }
 
     /**

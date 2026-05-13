@@ -1,5 +1,6 @@
 import { expect, Page } from "playwright/test";
 import { DetailsPage } from "../pages/details.page";
+import { priceToFloat } from "../../helpers/priceToFloat";
 
 export class DetailsInteractions {
     readonly page: Page;
@@ -48,11 +49,7 @@ export class DetailsInteractions {
     */
     async getNumericItemPrice(): Promise<number> {
         const price = await this.getItemPrice();
-        const numericPrice = parseFloat(price);
-        if (isNaN(numericPrice)) {
-            throw new Error(`Invalid price format for item. Got ${price}, then parsed to ${numericPrice}.`);
-        }
-        return numericPrice;
+        return priceToFloat(price);
     }
 
     // Validations ----------------------------------------------------------------------------------------
