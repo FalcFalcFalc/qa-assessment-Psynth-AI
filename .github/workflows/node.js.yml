@@ -67,12 +67,21 @@ jobs:
           cache: 'npm'
 
       - name: Restore cache
+        id: cache-restore
         uses: actions/cache@v4
         with:
           path: |
             node_modules
             ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies (cache miss fallback)
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Install Playwright browsers (cache miss fallback)
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        run: npx playwright install chromium --only-shell
 
       - name: Run tests
         run: npm test
