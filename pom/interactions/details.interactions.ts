@@ -13,12 +13,6 @@ export class DetailsInteractions {
 
     // Actions --------------------------------------------------------------------------------------------
 
-    async getId(name: string): Promise<string | null> {
-        const idProperty = await this.detailsPage.name.locator('..').getAttribute("id");
-        const id = idProperty?.match(/item_(\d+)/)?.[1] ?? null;
-        return id;
-    }
-
     /**
      * Adds an item to the cart
     */

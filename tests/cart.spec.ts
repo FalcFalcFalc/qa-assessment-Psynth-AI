@@ -26,8 +26,8 @@ test.describe("Cart Tests", () => {
     test("Add to cart", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
+        // Adding an item and asserting that it is in the cart
         await store.addItemToCart(StoreItems.BACKPACK);
-        await topbar.assertBadgeCountGreaterThan(0);
         await topbar.clickCart();
         await cart.assertItemInCart(StoreItems.BACKPACK);
     });
@@ -35,13 +35,13 @@ test.describe("Cart Tests", () => {
     test("Remove from cart", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
+        // Adding an item and then going to the cart page
         await store.addItemToCart(StoreItems.BACKPACK);
         await topbar.clickCart();
-        await cart.assertItemInCart(StoreItems.BACKPACK);
-        const badgeCount = await topbar.getBadgeCount();
+
+        // Removing the item and asserting that it is no longer in the cart
         await cart.removeItem(StoreItems.BACKPACK);
         await cart.assertItemNotInCart(StoreItems.BACKPACK);
-        await topbar.assertBadgeCountLessThan(badgeCount);
     });
 
     test("Set quantity of item in cart", async () => {
@@ -50,9 +50,11 @@ test.describe("Cart Tests", () => {
 
         const quantity = 3;
 
+        // Adding an item and then going to the cart page
         await store.addItemToCart(StoreItems.BACKPACK);
         await topbar.clickCart();
-        await cart.assertItemInCart(StoreItems.BACKPACK);
+
+        // Setting the quantity of the item in the cart and asserting that the quantity has been updated
         await cart.setQuantityOfItem(StoreItems.BACKPACK, quantity);
         await cart.assertQuantityOfItem(StoreItems.BACKPACK, quantity);
     });

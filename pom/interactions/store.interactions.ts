@@ -14,9 +14,15 @@ export class StoreInteractions {
 
     // Actions --------------------------------------------------------------------------------------------
 
+    /**
+     * gets an item's id
+     * @param name 
+     * @returns id of the item
+     */
     async getId(name: string): Promise<string | null> {
         const nameElement = this.storePage.item(name).name;
         const idProperty = await nameElement.locator('..').getAttribute("id");
+        // The id is in the format "item_4_(...)", so we need to extract the number from it
         const id = idProperty?.match(/item_(\d+)/)?.[1] ?? null;
         return id;
     }
@@ -24,12 +30,13 @@ export class StoreInteractions {
     /**
      * Clicks an item's link
      * @param name 
-     * @returns item's id
+     * @returns item's id and price
     */
     async clickItemLink(name: string) {
         const id = await this.getId(name);
         const price = await this.getNumericItemPrice(name);
         await this.storePage.item(name).name.click();
+        // returing it this way we have more versatility
         return { id, price };
     }
 
@@ -42,6 +49,8 @@ export class StoreInteractions {
         const id = await this.getId(name);
         const price = await this.getNumericItemPrice(name);
         const button = this.storePage.item(name).addButton;
+
+        // Asserting that the button is visible before clicking it to enable test.fail()
         await expect(button).toBeVisible();
         await button.click();
         return { id, price };

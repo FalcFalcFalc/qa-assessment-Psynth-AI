@@ -16,8 +16,9 @@ export class CheckoutPage {
     readonly total: Locator;
 
     // Step three
-    readonly message: Locator;
+    readonly successMessage: Locator;
     readonly backHomeButton: Locator;
+    readonly errorMessage: Locator;
 
     constructor(page: Page) {
         this.firstNameInput = page.locator("#first-name");
@@ -29,7 +30,8 @@ export class CheckoutPage {
         this.subtotal = page.locator(".summary_subtotal_label");
         this.tax = page.locator(".summary_tax_label");
         this.total = page.locator(".summary_total_label");
-        this.message = page.locator("h2.complete-header");
+        this.successMessage = page.locator("h2.complete-header");
         this.backHomeButton = page.locator("#back-to-products");
+        this.errorMessage = page.locator("div.error h3");
     }
 }

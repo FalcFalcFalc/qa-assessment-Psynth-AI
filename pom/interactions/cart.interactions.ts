@@ -16,28 +16,20 @@ export class CartInteractions {
     /**
      * Gets an item's id in the cart
      * @param name 
+     * @return id of the item
     */
     async getId(name: string): Promise<string | null> {
         const nameElement = this.cartPage.item(name).name;
         const idProperty = await nameElement.locator('..').getAttribute("id");
+        // The id is in the format "item_4_(...)", so we need to extract the number from it
         const id = idProperty?.match(/item_(\d+)/)?.[1] ?? null;
-        return id;
-    }
-
-    /**
-     * Clicks an item's link
-     * @param name 
-     * @returns item's id
-    */
-    async clickItemLink(name: string) {
-        const id = await this.getId(name);
-        await this.cartPage.item(name).name.click();
         return id;
     }
 
     /**
      * Removes an item from the cart
      * @param name 
+     * @return id of the removed item
     */
     async removeItem(name: string) {
         const id = await this.getId(name);
@@ -129,13 +121,6 @@ export class CartInteractions {
     async assertNoItemsInCart() {
         const count = this.cartPage.item().name.count();
         expect(count).toBe(0);
-    }
-
-    /**
-     * Assert checkout button is disabled
-     */
-    async assertCheckoutButtonDisabled(){
-        await expect(this.cartPage.checkoutButton).toBeDisabled();
     }
 
     /**

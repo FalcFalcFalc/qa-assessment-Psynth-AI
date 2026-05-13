@@ -23,7 +23,10 @@ test.describe("Store Tests", () => {
     test("Cart increased count", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
+        // Getting the current count of items in the cart
         const count = await topbar.getBadgeCount();
+
+        // Adding an item to the cart and asserting that the count has increased
         await store.addItemToCart(StoreItems.BACKPACK);
         await topbar.assertBadgeCountGreaterThan(count);
     });
@@ -31,10 +34,11 @@ test.describe("Store Tests", () => {
     test("Cart decreased count", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
-        let count = await topbar.getBadgeCount();
+        // Adding an item to the cart to make sure there is at least one item in the cart
         await store.addItemToCart(StoreItems.BACKPACK);
-        await topbar.assertBadgeCountGreaterThan(count);
-        count = await topbar.getBadgeCount();
+        const count = await topbar.getBadgeCount();
+
+        // Removing the item from the cart and asserting that the count has decreased
         await store.removeItemFromCart(StoreItems.BACKPACK);
         await topbar.assertBadgeCountLessThan(count);
     });
@@ -42,23 +46,27 @@ test.describe("Store Tests", () => {
     test("Add multiple items to cart", async () => {
         test.fail(true, "It is not possible to add multiple instances of the same item to the cart.");
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+
         const timesAdded = 3;
-        const ogCount = await topbar.getBadgeCount();
+        const count = await topbar.getBadgeCount();
+
+        // Adding the same item to the cart multiple times and asserting that the count has increased accordingly
         for (let i = 0; i < timesAdded; i++) {
             await store.addItemToCart(StoreItems.BACKPACK);
         }
-        await topbar.assertBadgeCountGreaterThan(ogCount + timesAdded);
+        await topbar.assertBadgeCountGreaterThan(count + timesAdded);
     });
 
     test("Item price is the same for different users", async () => {
         test.fail(true, "The item price is not consistent between users.");
-        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
+        // Login with the first user and get the price of an item
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
         const { price } = await store.clickItemLink(StoreItems.BACKPACK);
 
+        // Logout and login with another user and assert that the price of the same item is the same
         await topbar.logout();
         await login.login(process.env.VISUAL_USER, process.env.VISUAL_USER_PASSWORD);
-
         await store.assertItemPrice(StoreItems.BACKPACK, price);
     });
 });
