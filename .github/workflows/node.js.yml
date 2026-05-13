@@ -11,11 +11,26 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    env: 
+      BASE_URL: ${{ secrets.BASE_URL }}
 
-    strategy:
-      matrix:
-        node-version: [24.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+      STANDARD_USER: ${{ secrets.STANDARD_USER }}
+      STANDARD_USER_PASSWORD: ${{ secrets.STANDARD_USER_PASSWORD }}
+
+      LOCKED_OUT_USER: ${{ secrets.LOCKED_OUT_USER }}
+      LOCKED_OUT_USER_PASSWORD: ${{ secrets.LOCKED_OUT_USER_PASSWORD }}
+
+      PROBLEM_USER: ${{ secrets.PROBLEM_USER }}
+      PROBLEM_USER_PASSWORD: ${{ secrets.PROBLEM_USER_PASSWORD }}
+
+      PERFORMANCE_GLITCH_USER: ${{ secrets.PERFORMANCE_GLITCH_USER }}
+      PERFORMANCE_GLITCH_USER_PASSWORD: ${{ secrets.PERFORMANCE_GLITCH_USER_PASSWORD }}
+
+      ERROR_USER: ${{ secrets.ERROR_USER }}
+      ERROR_USER_PASSWORD: ${{ secrets.ERROR_USER_PASSWORD }}
+
+      VISUAL_USER: ${{ secrets.VISUAL_USER }}
+      VISUAL_USER_PASSWORD: ${{ secrets.VISUAL_USER_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v4
@@ -25,5 +40,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - run: npx playwright install
-    - run: npm test
+    - name: Install Playwright dependencies
+      run: npx playwright install-deps
+    - name: Install Playwright
+      run: npx playwright install chromium --only-shell
+    - name: Run tests
+      run: npm test
