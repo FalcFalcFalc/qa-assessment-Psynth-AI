@@ -91,7 +91,7 @@ export class CartInteractions {
     */
     async assertCartIsDisplayed() {
         const url = this.page.url();
-        expect(url).toBe("https://www.saucedemo.com/cart.html");
+        expect(url).toBe(process.env.BASE_URL!+"cart.html");
     }
 
     /**

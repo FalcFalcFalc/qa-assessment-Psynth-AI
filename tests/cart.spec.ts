@@ -19,7 +19,7 @@ test.describe("Cart Tests", () => {
         login = new LoginInteractions(page);
         cart = new CartInteractions(page);
         topbar = new TopBarInteractions(page);
-        await page.goto("https://www.saucedemo.com/");
+        await page.goto(process.env.BASE_URL!);
     });
 
     test("Add to cart", async () => {
@@ -43,6 +43,7 @@ test.describe("Cart Tests", () => {
         await topbar.assertBadgeCountLessThan(badgeCount);
     });
 
+    // This one fails
     test("Set quantity of item in cart", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 

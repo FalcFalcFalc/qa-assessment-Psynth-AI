@@ -9,7 +9,7 @@ test.describe("Login Tests", () => {
 
     test.beforeEach(async ({ page }) => {
         login = new LoginInteractions(page);
-        await page.goto("https://www.saucedemo.com/");
+        await page.goto(process.env.BASE_URL!);
     });
 
     test("Login with valid credentials", async ({ page }) => {

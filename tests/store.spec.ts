@@ -17,14 +17,7 @@ test.describe("Store Tests", () => {
         store = new StoreInteractions(page);
         login = new LoginInteractions(page);
         topbar = new TopBarInteractions(page);
-        await page.goto("https://www.saucedemo.com/");
-    });
-
-    test("View Item", async () => {
-        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
-
-        const id = await store.clickItemLink(StoreItems.BACKPACK);
-        await store.assertItemDetailsIsDisplayed(id!)
+        await page.goto(process.env.BASE_URL!);
     });
 
     test("Cart increased count", async () => {
@@ -35,6 +28,18 @@ test.describe("Store Tests", () => {
         await topbar.assertBadgeCountGreaterThan(count);
     });
 
+    test("Cart decreased count", async () => {
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+
+        let count = await topbar.getBadgeCount();
+        await store.addItemToCart(StoreItems.BACKPACK);
+        await topbar.assertBadgeCountGreaterThan(count);
+        count = await topbar.getBadgeCount();
+        await store.removeItemFromCart(StoreItems.BACKPACK);
+        await topbar.assertBadgeCountLessThan(count);
+    });
+
+    // Thise one fails
     test("Add multiple items", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
         const timesAdded = 3;

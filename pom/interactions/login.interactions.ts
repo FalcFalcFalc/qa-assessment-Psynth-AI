@@ -53,8 +53,8 @@ export class LoginInteractions {
      */
     async assertLoggedIn(page: Page) {
         const currentURL = page.url();
-        expect(currentURL).toBe("https://www.saucedemo.com/inventory.html");
-        expect(currentURL).not.toBe("https://www.saucedemo.com/");
+        expect(currentURL).toBe(process.env.BASE_URL!+"inventory.html");
+        expect(currentURL).not.toBe(process.env.BASE_URL!);
     }
 
     /**
@@ -63,7 +63,7 @@ export class LoginInteractions {
      */
     async assertNotLoggedIn(page: Page) {
         const currentURL = page.url();
-        expect(currentURL).toBe("https://www.saucedemo.com/");
-        expect(currentURL).not.toBe("https://www.saucedemo.com/inventory.html");
+        expect(currentURL).toBe(process.env.BASE_URL!);
+        expect(currentURL).not.toBe(process.env.BASE_URL!+"inventory.html");
     }
 }

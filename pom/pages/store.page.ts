@@ -20,7 +20,6 @@ export class StorePage {
 
     readonly item: (name: string) => StoreItem;
     readonly sortSelect: Locator;
-    readonly cartLink: Locator;
 
     constructor(page: Page) {
         this.item = (hasText: string) => {
@@ -35,6 +34,5 @@ export class StorePage {
             };
         };
         this.sortSelect = page.locator("select.product_sort_container");
-        this.cartLink = page.locator("a.shopping_cart_link");
     }
 }

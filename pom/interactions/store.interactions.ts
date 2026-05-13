@@ -1,6 +1,6 @@
 import { expect, Page } from "playwright/test";
 import { StorePage } from "../pages/store.page";
-import { StoreSortOptions } from "../../enums/store_sort";
+import { StoreSortOptions } from "../../enums/store";
 
 export class StoreInteractions {
     readonly page: Page;
@@ -42,6 +42,16 @@ export class StoreInteractions {
     }
 
     /**
+     * Removes an item from the cart
+     * @param name 
+    */
+    async removeItemFromCart(name: string) {
+        const id = await this.getId(name);
+        await this.storePage.item(name).removeButton.click();
+        return id;
+    }
+
+    /**
      * Gets an item's price
      * @param name 
     */
@@ -72,17 +82,5 @@ export class StoreInteractions {
     */
     async sortBy(option: StoreSortOptions) {
         await this.storePage.sortSelect.selectOption(option);
-    }
-
-    // Validations ----------------------------------------------------------------------------------------
-
-    /**
-     * Assert item details page is displayed
-     * @param id 
-    */
-    async assertItemDetailsIsDisplayed(id: string) {
-        const url = this.page.url();
-        expect(url).toContain("https://www.saucedemo.com/inventory-item.html");
-        expect(url).toContain(`inventory-item.html?id=${id}`);
     }
 }
