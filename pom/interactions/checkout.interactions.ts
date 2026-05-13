@@ -78,7 +78,6 @@ export class CheckoutInteractions {
     async getSubtotal(): Promise<number> {
         const subtotal = await this.checkoutPage.subtotal.textContent();
         return priceToFloat(subtotal);
-        
     }
 
     /**

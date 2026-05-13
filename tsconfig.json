@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
-    "types": ["playwright", "node"]
+    "types": [
+      "playwright",
+      "node"
+    ]
   }
 }

@@ -21,7 +21,6 @@ test.describe("Cart Tests", () => {
         cart = new CartInteractions(page);
         topbar = new TopBarInteractions(page);
         await navigateTo(page, process.env.BASE_URL!);
-        
     });
 
     test("Add to cart", async () => {
