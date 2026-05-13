@@ -107,9 +107,12 @@ export class CheckoutInteractions {
      * @param price the price of the item being checked out (used to assert subtotal is correct)
     */
     async assertTotalIsCorrect(price: number) {
+        // Get the subtotal, tax, and total amounts
         const subtotal = await this.getSubtotal();
         const tax = await this.getTax();
         const total = await this.getTotal();
+
+        // Assert the total is correct (subtotal + tax) and the subtotal is correct (price of item)
         expect(total).toBeCloseTo(subtotal + tax, 2);
         expect(price).toBeCloseTo(subtotal, 2);
     }

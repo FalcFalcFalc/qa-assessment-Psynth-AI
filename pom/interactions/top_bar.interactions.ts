@@ -48,7 +48,7 @@ export class TopBarInteractions {
     }
 
     /**
-     * Clicks on Logout
+     * Logs out
      */
     async logout() {
         await this.clickHamburgerMenu();
