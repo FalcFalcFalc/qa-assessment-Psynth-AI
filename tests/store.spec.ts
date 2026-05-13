@@ -1,10 +1,9 @@
-import { test } from "playwright/test";
+import { expect, test } from "playwright/test";
 import 'dotenv/config';
 import { LoginInteractions } from "../pom/interactions/login.interactions";
 import process from "process";
 import { StoreInteractions } from "../pom/interactions/store.interactions";
 import { StoreItems } from "../enums/store";
-import { CartInteractions } from "../pom/interactions/cart.interactions";
 import { TopBarInteractions } from "../pom/interactions/top_bar.interactions";
 import { navigateTo } from "../helpers/navigateTo";
 

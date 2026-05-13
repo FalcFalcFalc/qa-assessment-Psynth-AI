@@ -20,17 +20,19 @@ test.describe("Details Page", () => {
         store = new StoreInteractions(page);
         topbar = new TopBarInteractions(page);
         details = new DetailsInteractions(page);
-
-        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
     });
 
 
     test("View Item", async () => {
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+
         const id = await store.clickItemLink(StoreItems.BACKPACK);
         await details.assertItemDetailsIsDisplayed(id!)
     });
 
     test("Add to cart from details page", async () => {
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+
         const id = await store.clickItemLink(StoreItems.BACKPACK);
         await details.assertItemDetailsIsDisplayed(id!);
         const count = await topbar.getBadgeCount();
@@ -39,11 +41,27 @@ test.describe("Details Page", () => {
     });
 
     test("Remove from cart from details page", async () => {
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+
         const id = await store.clickItemLink(StoreItems.BACKPACK);
         await details.assertItemDetailsIsDisplayed(id!);
         await details.addItemToCart();
         const count = await topbar.getBadgeCount();
         await details.removeItemFromCart();
         await topbar.assertBadgeCountLessThan(count);
+    });
+
+    test("Item is the same for different users", async () => {
+        test.fail(true, "The item links are not consistent between users. The problem user has different links than the standard user, but they should be the same.");
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+
+        const id = await store.clickItemLink(StoreItems.BACKPACK);
+        await topbar.clickHamburgerMenu();
+        await topbar.clickLogout();
+
+        await login.login(process.env.PROBLEM_USER, process.env.PROBLEM_USER_PASSWORD);
+        
+        await store.clickItemLink(StoreItems.BACKPACK);
+        await details.assertItemDetailsIsDisplayed(id);
     });
 });
