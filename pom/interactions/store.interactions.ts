@@ -42,6 +42,8 @@ export class StoreInteractions {
         const id = await this.getId(name);
         const price = await this.getNumericItemPrice(name);
         const button = this.storePage.item(name).addButton;
+
+        // Asserting that the button is visible before clicking it to enable test.fail()
         await expect(button).toBeVisible();
         await button.click();
         return { id, price };

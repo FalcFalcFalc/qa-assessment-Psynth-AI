@@ -132,13 +132,6 @@ export class CartInteractions {
     }
 
     /**
-     * Assert checkout button is disabled
-     */
-    async assertCheckoutButtonDisabled(){
-        await expect(this.cartPage.checkoutButton).toBeDisabled();
-    }
-
-    /**
      * Assert item price
      * @param name 
      * @param expectedPrice
