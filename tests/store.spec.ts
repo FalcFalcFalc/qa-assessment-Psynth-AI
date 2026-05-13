@@ -39,7 +39,7 @@ test.describe("Store Tests", () => {
         await topbar.assertBadgeCountLessThan(count);
     });
 
-    test("Add multiple items", async () => {
+    test("Add multiple items to cart", async () => {
         test.fail(true, "It is not possible to add multiple instances of the same item to the cart.");
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
         const timesAdded = 3;

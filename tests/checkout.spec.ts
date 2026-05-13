@@ -28,7 +28,7 @@ test.describe("Checkout Tests", () => {
 
     });
 
-    test("Checkout flow", async () => {
+    test("Buying an item", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
 
         const item = StoreItems.SHIRT
@@ -106,15 +106,42 @@ test.describe("Checkout Tests", () => {
         const personalInfo = { firstName: "John", lastName: "Doe", postalCode: "12345" };
 
         await topbar.clickCart();
+
         await cart.assertNoItemsInCart();
         await cart.assertCheckoutButtonDisabled();
         await cart.clickCheckout();
+
         await checkout.fillCheckoutForm(personalInfo);
         await checkout.assertContinueDisabled();
         await checkout.assertTotalIsCorrect(0);
+
         await checkout.clickContinue();
         await checkout.clickFinish();
+
         await checkout.assertFailureMessage();
+        await checkout.clickBackHome();
+    });
+
+    test("Checking out without filling form", async () => {
+        test.fail(true, "It is currently possible to proceed to checkout without filling the form.");
+        await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
+
+        const item = StoreItems.SHIRT
+        const personalInfo = { firstName: "", lastName: "", postalCode: "" };
+
+        const { price } = await store.addItemToCart(item);
+        await topbar.clickCart();
+        await cart.assertItemInCart(item);
+        await cart.clickCheckout();
+
+        await checkout.assertCheckoutFormIsFilled(personalInfo);
+        await checkout.assertContinueDisabled();
+        await checkout.clickContinue();
+
+        await checkout.assertTotalIsCorrect(price);
+        await checkout.clickFinish();
+
+        await checkout.assertSuccessMessage();
         await checkout.clickBackHome();
     });
 });
