@@ -30,10 +30,10 @@ test.describe("Cart Tests", () => {
         await topbar.clickCart();
         await cart.assertItemInCart(StoreItems.BACKPACK);
     });
-    
+
     test("Remove from cart", async () => {
         await login.login(process.env.STANDARD_USER, process.env.STANDARD_USER_PASSWORD);
-        
+
         await store.addItemToCart(StoreItems.BACKPACK);
         await topbar.clickCart();
         await cart.assertItemInCart(StoreItems.BACKPACK);
@@ -55,5 +55,5 @@ test.describe("Cart Tests", () => {
         await cart.setQuantityOfItem(StoreItems.BACKPACK, quantity);
         await cart.assertQuantityOfItem(StoreItems.BACKPACK, quantity);
     })
-        
+
 });

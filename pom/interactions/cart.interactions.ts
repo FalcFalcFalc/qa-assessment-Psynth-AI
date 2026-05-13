@@ -12,6 +12,10 @@ export class CartInteractions {
 
     // Actions --------------------------------------------------------------------------------------------
 
+    /**
+     * Gets an item's id in the cart
+     * @param name 
+    */
     async getId(name: string): Promise<string | null> {
         const nameElement = this.cartPage.item(name).name;
         const idProperty = await nameElement.locator('..').getAttribute("id");
@@ -82,6 +86,13 @@ export class CartInteractions {
         return numericPrice;
     }
 
+    /**
+     * Clicks the checkout button
+     */
+    async clickCheckout() {
+        await this.cartPage.checkoutButton.click();
+    }
+
 
     // Validations ----------------------------------------------------------------------------------------
 
@@ -91,7 +102,7 @@ export class CartInteractions {
     */
     async assertCartIsDisplayed() {
         const url = this.page.url();
-        expect(url).toBe(process.env.BASE_URL!+"cart.html");
+        expect(url).toBe(process.env.BASE_URL! + "cart.html");
     }
 
     /**
@@ -125,6 +136,11 @@ export class CartInteractions {
         expect(price).toBe(expectedPrice);
     }
 
+    /**
+     * Assert item price
+     * @param name 
+     * @param expectedPrice
+     */
     async assertQuantityOfItem(name: string, expectedQuantity: number) {
         const quantity = await this.getQuantityOfItem(name);
         expect(quantity).toBe(expectedQuantity);
